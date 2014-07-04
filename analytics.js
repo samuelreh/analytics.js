@@ -6273,13 +6273,13 @@ module.exports = '2.2.2';
  */
 
 var each = require('each');
-var plugin = require('./integrations.js');
+var plugins = require('./integrations.js');
 
 /**
  * Expose the integrations, using their own `name` from their `prototype`.
  */
 
-each(plugin, function(plugin){
+each(plugins, function(plugin){
   var name = plugin.Integration.prototype.name;
   exports[name] = plugin;
 });
@@ -6287,11 +6287,16 @@ each(plugin, function(plugin){
 }, {"./integrations.js":84,"each":5}],
 84: [function(require, module, exports) {
 
+/**
+ * DON'T EDIT THIS FILE. It's automatically generated!
+ */
+
 module.exports = [
   require('./lib/adroll'),
   require('./lib/adwords'),
   require('./lib/alexa'),
   require('./lib/amplitude'),
+  require('./lib/attribution'),
   require('./lib/appcues'),
   require('./lib/awesm'),
   require('./lib/awesomatic'),
@@ -6364,7 +6369,7 @@ module.exports = [
   require('./lib/yandex-metrica')
 ];
 
-}, {"./lib/adroll":85,"./lib/adwords":86,"./lib/alexa":87,"./lib/amplitude":88,"./lib/appcues":89,"./lib/awesm":90,"./lib/awesomatic":91,"./lib/bing-ads":92,"./lib/bronto":93,"./lib/bugherd":94,"./lib/bugsnag":95,"./lib/chartbeat":96,"./lib/churnbee":97,"./lib/clicktale":98,"./lib/clicky":99,"./lib/comscore":100,"./lib/crazy-egg":101,"./lib/curebit":102,"./lib/customerio":103,"./lib/drip":104,"./lib/errorception":105,"./lib/evergage":106,"./lib/facebook-ads":107,"./lib/foxmetrics":108,"./lib/frontleaf":109,"./lib/gauges":110,"./lib/get-satisfaction":111,"./lib/google-analytics":112,"./lib/google-tag-manager":113,"./lib/gosquared":114,"./lib/heap":115,"./lib/hellobar":116,"./lib/hittail":117,"./lib/hubspot":118,"./lib/improvely":119,"./lib/inspectlet":120,"./lib/intercom":121,"./lib/keen-io":122,"./lib/kenshoo":123,"./lib/kissmetrics":124,"./lib/klaviyo":125,"./lib/leadlander":126,"./lib/livechat":127,"./lib/lucky-orange":128,"./lib/lytics":129,"./lib/mixpanel":130,"./lib/mojn":131,"./lib/mouseflow":132,"./lib/mousestats":133,"./lib/navilytics":134,"./lib/olark":135,"./lib/optimizely":136,"./lib/perfect-audience":137,"./lib/pingdom":138,"./lib/piwik":139,"./lib/preact":140,"./lib/qualaroo":141,"./lib/quantcast":142,"./lib/rollbar":143,"./lib/saasquatch":144,"./lib/sentry":145,"./lib/snapengage":146,"./lib/spinnakr":147,"./lib/tapstream":148,"./lib/trakio":149,"./lib/twitter-ads":150,"./lib/usercycle":151,"./lib/userfox":152,"./lib/uservoice":153,"./lib/vero":154,"./lib/visual-website-optimizer":155,"./lib/webengage":156,"./lib/woopra":157,"./lib/yandex-metrica":158}],
+}, {"./lib/adroll":85,"./lib/adwords":86,"./lib/alexa":87,"./lib/amplitude":88,"./lib/attribution":89,"./lib/appcues":90,"./lib/awesm":91,"./lib/awesomatic":92,"./lib/bing-ads":93,"./lib/bronto":94,"./lib/bugherd":95,"./lib/bugsnag":96,"./lib/chartbeat":97,"./lib/churnbee":98,"./lib/clicktale":99,"./lib/clicky":100,"./lib/comscore":101,"./lib/crazy-egg":102,"./lib/curebit":103,"./lib/customerio":104,"./lib/drip":105,"./lib/errorception":106,"./lib/evergage":107,"./lib/facebook-ads":108,"./lib/foxmetrics":109,"./lib/frontleaf":110,"./lib/gauges":111,"./lib/get-satisfaction":112,"./lib/google-analytics":113,"./lib/google-tag-manager":114,"./lib/gosquared":115,"./lib/heap":116,"./lib/hellobar":117,"./lib/hittail":118,"./lib/hubspot":119,"./lib/improvely":120,"./lib/inspectlet":121,"./lib/intercom":122,"./lib/keen-io":123,"./lib/kenshoo":124,"./lib/kissmetrics":125,"./lib/klaviyo":126,"./lib/leadlander":127,"./lib/livechat":128,"./lib/lucky-orange":129,"./lib/lytics":130,"./lib/mixpanel":131,"./lib/mojn":132,"./lib/mouseflow":133,"./lib/mousestats":134,"./lib/navilytics":135,"./lib/olark":136,"./lib/optimizely":137,"./lib/perfect-audience":138,"./lib/pingdom":139,"./lib/piwik":140,"./lib/preact":141,"./lib/qualaroo":142,"./lib/quantcast":143,"./lib/rollbar":144,"./lib/saasquatch":145,"./lib/sentry":146,"./lib/snapengage":147,"./lib/spinnakr":148,"./lib/tapstream":149,"./lib/trakio":150,"./lib/twitter-ads":151,"./lib/usercycle":152,"./lib/userfox":153,"./lib/uservoice":154,"./lib/vero":155,"./lib/visual-website-optimizer":156,"./lib/webengage":157,"./lib/woopra":158,"./lib/yandex-metrica":159}],
 85: [function(require, module, exports) {
 
 /**
@@ -6490,8 +6495,8 @@ AdRoll.prototype.track = function(track){
 
   window.__adroll.record_user(data);
 };
-}, {"analytics.js-integration":159,"to-snake-case":160,"load-script":161,"is":18}],
-159: [function(require, module, exports) {
+}, {"analytics.js-integration":160,"to-snake-case":161,"load-script":162,"is":18}],
+160: [function(require, module, exports) {
 
 var bind = require('bind');
 var callback = require('callback');
@@ -6545,8 +6550,8 @@ function createIntegration (name) {
   return Integration;
 }
 
-}, {"./protos":162,"./statics":163,"bind":164,"callback":12,"clone":14,"debug":165,"defaults":16,"slug":166}],
-162: [function(require, module, exports) {
+}, {"./protos":163,"./statics":164,"bind":165,"callback":12,"clone":14,"debug":166,"defaults":16,"slug":167}],
+163: [function(require, module, exports) {
 
 /**
  * Module dependencies.
@@ -6560,6 +6565,14 @@ var tick = require('next-tick');
 var events = require('./events');
 var type = require('type');
 
+/**
+ * Window defaults.
+ */
+
+var setTimeout = window.setTimeout;
+var setInterval = window.setInterval;
+var onerror = null;
+var onload = null;
 
 /**
  * Mixin emitter.
@@ -6734,8 +6747,11 @@ exports.flush = function () {
 
 exports.reset = function () {
   for (var i = 0, key; key = this.globals[i]; i++) window[key] = undefined;
+  window.setTimeout = setTimeout;
+  window.setInterval = setInterval;
+  window.onerror = onerror;
+  window.onload = onload;
 };
-
 
 /**
  * Wrap the initialize method in an exists check, so we don't have to do it for
@@ -6844,8 +6860,8 @@ exports._wrapTrack = function(){
   };
 };
 
-}, {"./events":167,"to-no-case":168,"after":10,"callback":12,"emitter":17,"next-tick":45,"type":33}],
-167: [function(require, module, exports) {
+}, {"./events":168,"to-no-case":169,"after":10,"callback":12,"emitter":17,"next-tick":45,"type":33}],
+168: [function(require, module, exports) {
 
 /**
  * Expose `events`
@@ -6859,7 +6875,7 @@ module.exports = {
 };
 
 }, {}],
-168: [function(require, module, exports) {
+169: [function(require, module, exports) {
 
 /**
  * Expose `toNoCase`.
@@ -6932,7 +6948,7 @@ function uncamelize (string) {
   });
 }
 }, {}],
-163: [function(require, module, exports) {
+164: [function(require, module, exports) {
 
 var after = require('after');
 var Emitter = require('emitter');
@@ -6960,25 +6976,24 @@ exports.option = function (key, value) {
 
 /**
  * Add a new mapping option.
- * 
- * the method will create a method `name` that will return a mapping
+ *
+ * This will create a method `name` that will return a mapping
  * for you to use.
- * 
+ *
  * Example:
- * 
+ *
  *    Integration('My Integration')
  *      .mapping('events');
- * 
+ *
  *    new MyIntegration().track('My Event');
- * 
+ *
  *    .track = function(track){
   *      var events = this.events(track.event());
   *      each(events, send);
  *     };
- * 
+ *
  * @param {String} name
  * @return {Integration}
- * @api public
  */
 
 exports.mapping = function(name){
@@ -7029,7 +7044,7 @@ exports.readyOnLoad = function () {
 
 
 /**
- * Mark the integration as being "ready" once `load` is called.
+ * Mark the integration as being "ready" once `initialize` is called.
  *
  * @return {Integration}
  */
@@ -7040,7 +7055,7 @@ exports.readyOnInitialize = function () {
 };
 
 }, {"after":10,"emitter":17}],
-164: [function(require, module, exports) {
+165: [function(require, module, exports) {
 
 var bind = require('bind')
   , bindAll = require('bind-all');
@@ -7082,15 +7097,15 @@ function bindMethods (obj, methods) {
   return obj;
 }
 }, {"bind":31,"bind-all":32}],
-165: [function(require, module, exports) {
+166: [function(require, module, exports) {
 if ('undefined' == typeof window) {
   module.exports = require('./lib/debug');
 } else {
   module.exports = require('./debug');
 }
 
-}, {"./lib/debug":169,"./debug":170}],
-169: [function(require, module, exports) {
+}, {"./lib/debug":170,"./debug":171}],
+170: [function(require, module, exports) {
 /**
  * Module dependencies.
  */
@@ -7240,7 +7255,7 @@ function coerce(val) {
 }
 
 }, {}],
-170: [function(require, module, exports) {
+171: [function(require, module, exports) {
 
 /**
  * Expose `debug()` as the module.
@@ -7380,7 +7395,7 @@ try {
 } catch(e){}
 
 }, {}],
-166: [function(require, module, exports) {
+167: [function(require, module, exports) {
 
 /**
  * Generate a slug from the given `str`.
@@ -7406,7 +7421,7 @@ module.exports = function (str, options) {
 };
 
 }, {}],
-160: [function(require, module, exports) {
+161: [function(require, module, exports) {
 var toSpace = require('to-space-case');
 
 
@@ -7429,8 +7444,8 @@ function toSnakeCase (string) {
   return toSpace(string).replace(/\s/g, '_');
 }
 
-}, {"to-space-case":171}],
-171: [function(require, module, exports) {
+}, {"to-space-case":172}],
+172: [function(require, module, exports) {
 
 var clean = require('to-no-case');
 
@@ -7456,7 +7471,7 @@ function toSpaceCase (string) {
   });
 }
 }, {"to-no-case":69}],
-161: [function(require, module, exports) {
+162: [function(require, module, exports) {
 
 /**
  * Module dependencies.
@@ -7517,8 +7532,8 @@ module.exports = function loadScript(options, fn){
   // give it an ID or attributes.
   return script;
 };
-}, {"script-onload":172,"next-tick":45,"type":33}],
-172: [function(require, module, exports) {
+}, {"script-onload":173,"next-tick":45,"type":33}],
+173: [function(require, module, exports) {
 
 // https://github.com/thirdpartyjs/thirdpartyjs-code/blob/master/examples/templates/02/loading-files/index.html
 
@@ -7757,8 +7772,8 @@ AdWords.prototype.shim = function(){
   }
 }
 
-}, {"analytics.js-integration":159,"on-body":173,"load-script":161,"domify":174,"queue":175}],
-173: [function(require, module, exports) {
+}, {"analytics.js-integration":160,"on-body":174,"load-script":162,"domify":175,"queue":176}],
+174: [function(require, module, exports) {
 var each = require('each');
 
 
@@ -7813,7 +7828,7 @@ function call (callback) {
   callback(document.body);
 }
 }, {"each":79}],
-174: [function(require, module, exports) {
+175: [function(require, module, exports) {
 
 /**
  * Expose `parse`.
@@ -7902,7 +7917,7 @@ function parse(html) {
 }
 
 }, {}],
-175: [function(require, module, exports) {
+176: [function(require, module, exports) {
 
 /**
  * Module dependencies.
@@ -8038,8 +8053,8 @@ function timeout(fn, ms) {
   }
 }
 
-}, {"emitter":176,"bind":31,"component-emitter":176,"component-bind":31}],
-176: [function(require, module, exports) {
+}, {"emitter":177,"bind":31,"component-emitter":177,"component-bind":31}],
+177: [function(require, module, exports) {
 
 /**
  * Expose `Emitter`.
@@ -8208,6 +8223,10 @@ Emitter.prototype.hasListeners = function(event){
 }, {}],
 87: [function(require, module, exports) {
 
+/**
+ * Module dependencies.
+ */
+
 var integration = require('analytics.js-integration');
 var load = require('load-script');
 
@@ -8270,8 +8289,12 @@ Alexa.prototype.load = function(callback){
   });
 };
 
-}, {"analytics.js-integration":159,"load-script":161}],
+}, {"analytics.js-integration":160,"load-script":162}],
 88: [function(require, module, exports) {
+
+/**
+ * Module dependencies.
+ */
 
 var callback = require('callback');
 var integration = require('analytics.js-integration');
@@ -8291,7 +8314,7 @@ module.exports = exports = function(analytics){
 
 var Amplitude = exports.Integration = integration('Amplitude')
   .assumesPageview()
-  .readyOnInitialize()
+  .readyOnLoad()
   .global('amplitude')
   .option('apiKey', '')
   .option('trackAllPages', false)
@@ -8385,8 +8408,103 @@ Amplitude.prototype.track = function(track){
   window.amplitude.logEvent(event, props);
 };
 
-}, {"callback":12,"analytics.js-integration":159,"load-script":161}],
+}, {"callback":12,"analytics.js-integration":160,"load-script":162}],
 89: [function(require, module, exports) {
+
+var callback    = require('callback');
+var integration = require('analytics.js-integration');
+var load        = require('load-script');
+var push        = require('global-queue')('_attrq');
+
+/**
+ * Expose plugin.
+ */
+
+module.exports = exports = function(analytics){
+  analytics.addIntegration(Attribution);
+};
+
+/**
+ * Expose `Attribution IO` integration.
+ */
+
+var Attribution = exports.Integration = integration('Attribution')
+  .readyOnInitialize()
+  .global('_attrq')
+  .option('projectId', '')
+
+/**
+ * Initialize.
+ *
+ */
+
+Attribution.prototype.initialize = function(){
+  window.Attribution = window.Attribution || {};
+  this.load();
+};
+
+/**
+ * Load the Attribution library.
+ *
+ * @param {Function} callback
+ */
+
+Attribution.prototype.load = function(callback){
+  load('//localhost:9000/scripts/attribution.js', callback);
+};
+
+/**
+ * Page.
+ *
+ * @param {Page} page
+ */
+
+Attribution.prototype.page = function(page){
+  this.track(page.track());
+};
+
+/**
+ * Track.
+ *
+ * @param {Track} track
+ */
+
+Attribution.prototype.track = function(track) {
+  push('track', track.properties());
+}
+
+}, {"callback":12,"analytics.js-integration":160,"load-script":162,"global-queue":178}],
+178: [function(require, module, exports) {
+
+/**
+ * Expose `generate`.
+ */
+
+module.exports = generate;
+
+
+/**
+ * Generate a global queue pushing method with `name`.
+ *
+ * @param {String} name
+ * @param {Object} options
+ *   @property {Boolean} wrap
+ * @return {Function}
+ */
+
+function generate (name, options) {
+  options = options || {};
+
+  return function (args) {
+    args = [].slice.call(arguments);
+    window[name] || (window[name] = []);
+    options.wrap === false
+      ? window[name].push.apply(window[name], args)
+      : window[name].push(args);
+  };
+}
+}, {}],
+90: [function(require, module, exports) {
 
 /**
  * Module dependencies.
@@ -8467,8 +8585,12 @@ Appcues.prototype.identify = function(identify){
   window.Appcues.identify(identify.traits());
 };
 
-}, {"analytics.js-integration":159,"load-script":161,"is":18}],
-90: [function(require, module, exports) {
+}, {"analytics.js-integration":160,"load-script":162,"is":18}],
+91: [function(require, module, exports) {
+
+/**
+ * Module dependencies.
+ */
 
 var integration = require('analytics.js-integration');
 var load = require('load-script');
@@ -8519,7 +8641,7 @@ Awesm.prototype.initialize = function(page){
  */
 
 Awesm.prototype.loaded = function(){
-  return !! window.AWESM._exists;
+  return !! (window.AWESM && window.AWESM._exists);
 };
 
 /**
@@ -8546,8 +8668,12 @@ Awesm.prototype.track = function(track){
   window.AWESM.convert(goal, track.cents(), null, user.id());
 };
 
-}, {"analytics.js-integration":159,"load-script":161}],
-91: [function(require, module, exports) {
+}, {"analytics.js-integration":160,"load-script":162}],
+92: [function(require, module, exports) {
+
+/**
+ * Module dependencies.
+ */
 
 var integration = require('analytics.js-integration');
 var is = require('is');
@@ -8624,8 +8750,8 @@ Awesomatic.prototype.load = function(callback){
   load(url, callback);
 };
 
-}, {"analytics.js-integration":159,"is":18,"load-script":161,"on-body":173}],
-92: [function(require, module, exports) {
+}, {"analytics.js-integration":160,"is":18,"load-script":162,"on-body":174}],
+93: [function(require, module, exports) {
 
 /**
  * Module dependencies.
@@ -8769,8 +8895,8 @@ function writeToAppend(str) {
   }
   document.body.appendChild(el);
 }
-}, {"analytics.js-integration":159,"load-script":161,"on-body":173,"domify":174,"extend":38,"bind":31,"when":177}],
-177: [function(require, module, exports) {
+}, {"analytics.js-integration":160,"load-script":162,"on-body":174,"domify":175,"extend":38,"bind":31,"when":179}],
+179: [function(require, module, exports) {
 
 var callback = require('callback');
 
@@ -8800,7 +8926,7 @@ function when (condition, fn, interval) {
   }, interval || 10);
 }
 }, {"callback":12}],
-93: [function(require, module, exports) {
+94: [function(require, module, exports) {
 
 /**
  * Module dependencies.
@@ -8958,8 +9084,8 @@ Bronto.prototype.completedOrder = function(track){
   });
 };
 
-}, {"analytics.js-integration":159,"facade":178,"load-pixel":179,"load-script":161,"querystring":180,"each":5}],
-178: [function(require, module, exports) {
+}, {"analytics.js-integration":160,"facade":180,"load-pixel":181,"load-script":162,"querystring":182,"each":5}],
+180: [function(require, module, exports) {
 
 var Facade = require('./facade');
 
@@ -8980,8 +9106,8 @@ Facade.Track = require('./track');
 Facade.Page = require('./page');
 Facade.Screen = require('./screen');
 
-}, {"./facade":181,"./alias":182,"./group":183,"./identify":184,"./track":185,"./page":186,"./screen":187}],
-181: [function(require, module, exports) {
+}, {"./facade":183,"./alias":184,"./group":185,"./identify":186,"./track":187,"./page":188,"./screen":189}],
+183: [function(require, module, exports) {
 
 var clone = require('./utils').clone;
 var isEnabled = require('./is-enabled');
@@ -9249,8 +9375,8 @@ function transform(obj){
   return cloned;
 }
 
-}, {"./utils":188,"./is-enabled":189,"obj-case":59,"isodate-traverse":60}],
-188: [function(require, module, exports) {
+}, {"./utils":190,"./is-enabled":191,"obj-case":59,"isodate-traverse":60}],
+190: [function(require, module, exports) {
 
 /**
  * TODO: use component symlink, everywhere ?
@@ -9265,7 +9391,7 @@ try {
 }
 
 }, {"inherit":61,"clone":62}],
-189: [function(require, module, exports) {
+191: [function(require, module, exports) {
 
 /**
  * A few integrations are disabled by default. They must be explicitly
@@ -9288,7 +9414,7 @@ module.exports = function (integration) {
   return ! disabled[integration];
 };
 }, {}],
-182: [function(require, module, exports) {
+184: [function(require, module, exports) {
 
 /**
  * Module dependencies.
@@ -9359,8 +9485,8 @@ Alias.prototype.userId = function(){
     || this.field('to');
 };
 
-}, {"./utils":188,"./facade":181}],
-183: [function(require, module, exports) {
+}, {"./utils":190,"./facade":183}],
+185: [function(require, module, exports) {
 
 var inherit = require('./utils').inherit;
 var Facade = require('./facade');
@@ -9462,8 +9588,8 @@ Group.prototype.properties = function(){
     || {};
 };
 
-}, {"./utils":188,"./facade":181,"new-date":21}],
-184: [function(require, module, exports) {
+}, {"./utils":190,"./facade":183,"new-date":21}],
+186: [function(require, module, exports) {
 
 var Facade = require('./facade');
 var isEmail = require('is-email');
@@ -9657,8 +9783,8 @@ Identify.prototype.phone = Facade.proxy('traits.phone');
 Identify.prototype.address = Facade.proxy('traits.address');
 Identify.prototype.avatar = Facade.proxy('traits.avatar');
 
-}, {"./facade":181,"./utils":188,"is-email":19,"new-date":21,"trim":49}],
-185: [function(require, module, exports) {
+}, {"./facade":183,"./utils":190,"is-email":19,"new-date":21,"trim":49}],
+187: [function(require, module, exports) {
 
 var inherit = require('./utils').inherit;
 var clone = require('./utils').clone;
@@ -9933,8 +10059,8 @@ function currency(val) {
   if (!isNaN(val)) return val;
 }
 
-}, {"./utils":188,"./facade":181,"./identify":184,"is-email":19}],
-186: [function(require, module, exports) {
+}, {"./utils":190,"./facade":183,"./identify":186,"is-email":19}],
+188: [function(require, module, exports) {
 
 var inherit = require('./utils').inherit;
 var Facade = require('./facade');
@@ -10040,8 +10166,8 @@ Page.prototype.track = function(name){
   });
 };
 
-}, {"./utils":188,"./facade":181,"./track":185}],
-187: [function(require, module, exports) {
+}, {"./utils":190,"./facade":183,"./track":187}],
+189: [function(require, module, exports) {
 
 var inherit = require('./utils').inherit;
 var Page = require('./page');
@@ -10115,8 +10241,8 @@ Screen.prototype.track = function(name){
   });
 };
 
-}, {"./utils":188,"./page":186,"./track":185}],
-179: [function(require, module, exports) {
+}, {"./utils":190,"./page":188,"./track":187}],
+181: [function(require, module, exports) {
 
 /**
  * Module dependencies.
@@ -10171,8 +10297,8 @@ function error(fn, message, img){
   };
 }
 
-}, {"querystring":180,"substitute":190}],
-180: [function(require, module, exports) {
+}, {"querystring":182,"substitute":192}],
+182: [function(require, module, exports) {
 
 /**
  * Module dependencies.
@@ -10248,7 +10374,7 @@ exports.stringify = function(obj){
 };
 
 }, {"trim":49,"type":33}],
-190: [function(require, module, exports) {
+192: [function(require, module, exports) {
 
 /**
  * Expose `substitute`
@@ -10277,7 +10403,7 @@ function substitute(str, obj, expr){
 }
 
 }, {}],
-94: [function(require, module, exports) {
+95: [function(require, module, exports) {
 
 /**
  * Module dependencies.
@@ -10339,8 +10465,12 @@ BugHerd.prototype.load = function(callback){
   load('//www.bugherd.com/sidebarv2.js?apikey=' + this.options.apiKey, callback);
 };
 
-}, {"analytics.js-integration":159,"load-script":161}],
-95: [function(require, module, exports) {
+}, {"analytics.js-integration":160,"load-script":162}],
+96: [function(require, module, exports) {
+
+/**
+ * Module dependencies.
+ */
 
 var integration = require('analytics.js-integration');
 var is = require('is');
@@ -10413,8 +10543,8 @@ Bugsnag.prototype.identify = function(identify){
   extend(window.Bugsnag.metaData, identify.traits());
 };
 
-}, {"analytics.js-integration":159,"is":18,"extend":38,"load-script":161,"on-error":191}],
-191: [function(require, module, exports) {
+}, {"analytics.js-integration":160,"is":18,"extend":38,"load-script":162,"on-error":193}],
+193: [function(require, module, exports) {
 
 /**
  * Expose `onError`.
@@ -10467,7 +10597,7 @@ function onError (fn) {
   }
 }
 }, {}],
-96: [function(require, module, exports) {
+97: [function(require, module, exports) {
 
 /**
  * Module dependencies.
@@ -10558,8 +10688,8 @@ Chartbeat.prototype.page = function(page){
   window.pSUPERFLY.virtualPage(props.path, name || props.title);
 };
 
-}, {"analytics.js-integration":159,"defaults":192,"load-script":161,"on-body":173}],
-192: [function(require, module, exports) {
+}, {"analytics.js-integration":160,"defaults":194,"load-script":162,"on-body":174}],
+194: [function(require, module, exports) {
 /**
  * Expose `defaults`.
  */
@@ -10576,7 +10706,7 @@ function defaults (dest, defaults) {
 };
 
 }, {}],
-97: [function(require, module, exports) {
+98: [function(require, module, exports) {
 
 /**
  * Module dependencies.
@@ -10619,7 +10749,7 @@ module.exports = exports = function(analytics){
  */
 
 var ChurnBee = exports.Integration = integration('ChurnBee')
-  .readyOnInitialize()
+  .readyOnLoad()
   .global('_cbq')
   .global('ChurnBee')
   .option('events', {})
@@ -10672,38 +10802,12 @@ ChurnBee.prototype.track = function(track){
   push(event, track.properties({ revenue: 'amount' }));
 };
 
-}, {"global-queue":193,"analytics.js-integration":159,"load-script":161}],
-193: [function(require, module, exports) {
+}, {"global-queue":178,"analytics.js-integration":160,"load-script":162}],
+99: [function(require, module, exports) {
 
 /**
- * Expose `generate`.
+ * Module dependencies.
  */
-
-module.exports = generate;
-
-
-/**
- * Generate a global queue pushing method with `name`.
- *
- * @param {String} name
- * @param {Object} options
- *   @property {Boolean} wrap
- * @return {Function}
- */
-
-function generate (name, options) {
-  options = options || {};
-
-  return function (args) {
-    args = [].slice.call(arguments);
-    window[name] || (window[name] = []);
-    options.wrap === false
-      ? window[name].push.apply(window[name], args)
-      : window[name].push(args);
-  };
-}
-}, {}],
-98: [function(require, module, exports) {
 
 var date = require('load-date');
 var domify = require('domify');
@@ -10813,8 +10917,8 @@ ClickTale.prototype.track = function(track){
   window.ClickTaleEvent(track.event());
 };
 
-}, {"load-date":194,"domify":174,"each":5,"analytics.js-integration":159,"is":18,"use-https":195,"load-script":161,"on-body":173}],
-194: [function(require, module, exports) {
+}, {"load-date":195,"domify":175,"each":5,"analytics.js-integration":160,"is":18,"use-https":196,"load-script":162,"on-body":174}],
+195: [function(require, module, exports) {
 
 
 /*
@@ -10832,7 +10936,7 @@ if (perf && perf.timing && perf.timing.responseEnd) {
 
 module.exports = time;
 }, {}],
-195: [function(require, module, exports) {
+196: [function(require, module, exports) {
 
 /**
  * Protocol.
@@ -10871,7 +10975,11 @@ function check () {
   );
 }
 }, {}],
-99: [function(require, module, exports) {
+100: [function(require, module, exports) {
+
+/**
+ * Module dependencies.
+ */
 
 var Identify = require('facade').Identify;
 var extend = require('extend');
@@ -10982,8 +11090,12 @@ Clicky.prototype.track = function(track){
   window.clicky.goal(track.event(), track.revenue());
 };
 
-}, {"facade":178,"extend":38,"analytics.js-integration":159,"is":18,"load-script":161}],
-100: [function(require, module, exports) {
+}, {"facade":180,"extend":38,"analytics.js-integration":160,"is":18,"load-script":162}],
+101: [function(require, module, exports) {
+
+/**
+ * Module dependencies.
+ */
 
 var integration = require('analytics.js-integration');
 var load = require('load-script');
@@ -11042,8 +11154,12 @@ Comscore.prototype.load = function(callback){
   }, callback);
 };
 
-}, {"analytics.js-integration":159,"load-script":161}],
-101: [function(require, module, exports) {
+}, {"analytics.js-integration":160,"load-script":162}],
+102: [function(require, module, exports) {
+
+/**
+ * Module dependencies.
+ */
 
 var integration = require('analytics.js-integration');
 var load = require('load-script');
@@ -11100,8 +11216,8 @@ CrazyEgg.prototype.load = function(callback){
   load(url, callback);
 };
 
-}, {"analytics.js-integration":159,"load-script":161}],
-102: [function(require, module, exports) {
+}, {"analytics.js-integration":160,"load-script":162}],
+103: [function(require, module, exports) {
 
 /**
  * Module dependencies.
@@ -11159,15 +11275,11 @@ var Curebit = exports.Integration = integration('Curebit')
  */
 
 Curebit.prototype.initialize = function(page){
-  // throttle the call to `.page()`.
-  this.page = throttle(bind(this, this.page), 250);
-
-  var data = {
-    site_id: this.options.siteId,
-    server: this.options.server
-  };
-  push('init', data);
+  push('init', { site_id: this.options.siteId, server: this.options.server });
   this.load();
+
+  // throttle the call to `page` since curebit needs to append an iframe
+  this.page = throttle(bind(this, this.page), 250);
 };
 
 /**
@@ -11311,8 +11423,8 @@ Curebit.prototype.completedOrder = function(track){
   });
 };
 
-}, {"analytics.js-integration":159,"global-queue":193,"facade":178,"throttle":196,"to-iso-string":197,"load-script":161,"clone":198,"each":5,"bind":31}],
-196: [function(require, module, exports) {
+}, {"analytics.js-integration":160,"global-queue":178,"facade":180,"throttle":197,"to-iso-string":198,"load-script":162,"clone":199,"each":5,"bind":31}],
+197: [function(require, module, exports) {
 
 /**
  * Module exports.
@@ -11345,7 +11457,7 @@ function throttle (func, wait) {
 }
 
 }, {}],
-197: [function(require, module, exports) {
+198: [function(require, module, exports) {
 
 /**
  * Expose `toIsoString`.
@@ -11387,7 +11499,7 @@ function pad (number) {
   return n.length === 1 ? '0' + n : n;
 }
 }, {}],
-198: [function(require, module, exports) {
+199: [function(require, module, exports) {
 
 /**
  * Module dependencies.
@@ -11449,7 +11561,11 @@ function clone(obj){
 }
 
 }, {"type":33}],
-103: [function(require, module, exports) {
+104: [function(require, module, exports) {
+
+/**
+ * Module dependencies.
+ */
 
 var alias = require('alias');
 var callback = require('callback');
@@ -11479,7 +11595,7 @@ module.exports = exports = function(analytics){
 
 var Customerio = exports.Integration = integration('Customer.io')
   .assumesPageview()
-  .readyOnInitialize()
+  .readyOnLoad()
   .global('_cio')
   .option('siteId', '');
 
@@ -11578,8 +11694,8 @@ function convertDate(date){
   return Math.floor(date.getTime() / 1000);
 }
 
-}, {"alias":199,"callback":12,"convert-dates":200,"facade":178,"analytics.js-integration":159,"load-script":161}],
-199: [function(require, module, exports) {
+}, {"alias":200,"callback":12,"convert-dates":201,"facade":180,"analytics.js-integration":160,"load-script":162}],
+200: [function(require, module, exports) {
 
 var type = require('type');
 
@@ -11643,7 +11759,7 @@ function aliasByFunction (obj, convert) {
   return output;
 }
 }, {"type":33,"clone":62}],
-200: [function(require, module, exports) {
+201: [function(require, module, exports) {
 
 var is = require('is');
 
@@ -11679,7 +11795,11 @@ function convertDates (obj, convert) {
   return obj;
 }
 }, {"is":18,"clone":14}],
-104: [function(require, module, exports) {
+105: [function(require, module, exports) {
+
+/**
+ * Module dependencies.
+ */
 
 var alias = require('alias');
 var integration = require('analytics.js-integration');
@@ -11755,8 +11875,12 @@ Drip.prototype.track = function(track){
   push('track', props);
 };
 
-}, {"alias":199,"analytics.js-integration":159,"is":18,"load-script":161,"global-queue":193}],
-105: [function(require, module, exports) {
+}, {"alias":200,"analytics.js-integration":160,"is":18,"load-script":162,"global-queue":178}],
+106: [function(require, module, exports) {
+
+/**
+ * Module dependencies.
+ */
 
 var callback = require('callback');
 var extend = require('extend');
@@ -11779,7 +11903,7 @@ module.exports = exports = function(analytics){
 
 var Errorception = exports.Integration = integration('Errorception')
   .assumesPageview()
-  .readyOnInitialize()
+  .readyOnLoad()
   .global('_errs')
   .option('projectId', '')
   .option('meta', true);
@@ -11834,8 +11958,12 @@ Errorception.prototype.identify = function(identify){
   extend(window._errs.meta, traits);
 };
 
-}, {"callback":12,"extend":38,"analytics.js-integration":159,"load-script":161,"on-error":191,"global-queue":193}],
-106: [function(require, module, exports) {
+}, {"callback":12,"extend":38,"analytics.js-integration":160,"load-script":162,"on-error":193,"global-queue":178}],
+107: [function(require, module, exports) {
+
+/**
+ * Module dependencies.
+ */
 
 var each = require('each');
 var integration = require('analytics.js-integration');
@@ -11856,7 +11984,7 @@ module.exports = exports = function(analytics){
 
 var Evergage = exports.Integration = integration('Evergage')
   .assumesPageview()
-  .readyOnInitialize()
+  .readyOnLoad()
   .global('_aaq')
   .option('account', '')
   .option('dataset', '');
@@ -11969,8 +12097,8 @@ Evergage.prototype.track = function(track){
   push('trackAction', track.event(), track.properties());
 };
 
-}, {"each":5,"analytics.js-integration":159,"load-script":161,"global-queue":193}],
-107: [function(require, module, exports) {
+}, {"each":5,"analytics.js-integration":160,"load-script":162,"global-queue":178}],
+108: [function(require, module, exports) {
 
 /**
  * Module dependencies.
@@ -12063,8 +12191,12 @@ Facebook.prototype.track = function(track){
   push('track', event, data);
 };
 
-}, {"analytics.js-integration":159,"global-queue":193,"load-script":161}],
-108: [function(require, module, exports) {
+}, {"analytics.js-integration":160,"global-queue":178,"load-script":162}],
+109: [function(require, module, exports) {
+
+/**
+ * Module dependencies.
+ */
 
 var push = require('global-queue')('_fxm');
 var integration = require('analytics.js-integration');
@@ -12087,7 +12219,7 @@ module.exports = exports = function(analytics){
 
 var FoxMetrics = exports.Integration = integration('FoxMetrics')
   .assumesPageview()
-  .readyOnInitialize()
+  .readyOnLoad()
   .global('_fxm')
   .option('appId', '');
 
@@ -12269,8 +12401,12 @@ function ecommerce(event, track, arr){
   ].concat(arr || []));
 }
 
-}, {"global-queue":193,"analytics.js-integration":159,"facade":178,"callback":12,"load-script":161,"each":5}],
-109: [function(require, module, exports) {
+}, {"global-queue":178,"analytics.js-integration":160,"facade":180,"callback":12,"load-script":162,"each":5}],
+110: [function(require, module, exports) {
+
+/**
+ * Module dependencies.
+ */
 
 var callback = require('callback');
 var integration = require('analytics.js-integration');
@@ -12291,12 +12427,14 @@ module.exports = exports = function(analytics){
 
 var Frontleaf = exports.Integration = integration('Frontleaf')
   .assumesPageview()
-  .readyOnInitialize()
+  .readyOnLoad()
   .global('_fl')
   .global('_flBaseUrl')
   .option('baseUrl', 'https://api.frontleaf.com')
   .option('token', '')
-  .option('stream', '');
+  .option('stream', '')
+  .option('trackNamedPages', false)
+  .option('trackCategorizedPages', false);
 
 /**
  * Initialize.
@@ -12367,6 +12505,28 @@ Frontleaf.prototype.group = function(group){
       name: group.proxy('traits.name'),
       data: clean(group.traits())
     });
+  }
+};
+
+/**
+ * Page.
+ *
+ * @param {Page} page
+ */
+
+Frontleaf.prototype.page = function(page){
+  var category = page.category();
+  var name = page.fullName();
+  var opts = this.options;
+
+  // categorized pages
+  if (category && opts.trackCategorizedPages) {
+    this.track(page.track(category));
+  }
+
+  // named pages
+  if (name && opts.trackNamedPages) {
+    this.track(page.track(name));
   }
 };
 
@@ -12480,8 +12640,12 @@ function flatten(source){
   return output;
 }
 
-}, {"callback":12,"analytics.js-integration":159,"is":18,"load-script":161}],
-110: [function(require, module, exports) {
+}, {"callback":12,"analytics.js-integration":160,"is":18,"load-script":162}],
+111: [function(require, module, exports) {
+
+/**
+ * Module dependencies.
+ */
 
 var callback = require('callback');
 var integration = require('analytics.js-integration');
@@ -12502,7 +12666,7 @@ module.exports = exports = function(analytics){
 
 var Gauges = exports.Integration = integration('Gauges')
   .assumesPageview()
-  .readyOnInitialize()
+  .readyOnLoad()
   .global('_gauges')
   .option('siteId', '');
 
@@ -12552,8 +12716,12 @@ Gauges.prototype.page = function(page){
   push('track');
 };
 
-}, {"callback":12,"analytics.js-integration":159,"load-script":161,"global-queue":193}],
-111: [function(require, module, exports) {
+}, {"callback":12,"analytics.js-integration":160,"load-script":162,"global-queue":178}],
+112: [function(require, module, exports) {
+
+/**
+ * Module dependencies.
+ */
 
 var integration = require('analytics.js-integration');
 var load = require('load-script');
@@ -12617,36 +12785,38 @@ GetSatisfaction.prototype.load = function(callback){
   load('https://loader.engage.gsfn.us/loader.js', callback);
 };
 
-}, {"analytics.js-integration":159,"load-script":161,"on-body":173}],
-112: [function(require, module, exports) {
+}, {"analytics.js-integration":160,"load-script":162,"on-body":174}],
+113: [function(require, module, exports) {
 
-var callback = require('callback');
-var canonical = require('canonical');
-var each = require('each');
+/**
+ * Module dependencies.
+ */
+
 var integration = require('analytics.js-integration');
-var is = require('is');
-var load = require('load-script');
 var push = require('global-queue')('_gaq');
-var Track = require('facade').Track;
 var length = require('object').length;
+var canonical = require('canonical');
+var Track = require('facade').Track;
+var callback = require('callback');
+var load = require('load-script');
 var keys = require('object').keys;
 var dot = require('obj-case');
+var each = require('each');
 var type = require('type');
 var url = require('url');
+var is = require('is');
 var group;
 var user;
-
 
 /**
  * Expose plugin.
  */
 
-module.exports = exports = function (analytics) {
+module.exports = exports = function(analytics){
   analytics.addIntegration(GA);
   group = analytics.group();
   user = analytics.user();
 };
-
 
 /**
  * Expose `GA` integration.
@@ -12676,13 +12846,12 @@ var GA = exports.Integration = integration('Google Analytics')
   .option('metrics', {})
   .option('dimensions', {});
 
-
 /**
  * When in "classic" mode, on `construct` swap all of the method to point to
  * their classic counterparts.
  */
 
-GA.on('construct', function (integration) {
+GA.on('construct', function(integration){
   if (!integration.options.classic) return;
   integration.initialize = integration.initializeClassic;
   integration.load = integration.loadClassic;
@@ -12692,19 +12861,18 @@ GA.on('construct', function (integration) {
   integration.completedOrder = integration.completedOrderClassic;
 });
 
-
 /**
  * Initialize.
  *
  * https://developers.google.com/analytics/devguides/collection/analyticsjs/advanced
  */
 
-GA.prototype.initialize = function () {
+GA.prototype.initialize = function(){
   var opts = this.options;
 
   // setup the tracker globals
   window.GoogleAnalyticsObject = 'ga';
-  window.ga = window.ga || function () {
+  window.ga = window.ga || function(){
     window.ga.q = window.ga.q || [];
     window.ga.q.push(arguments);
   };
@@ -12737,17 +12905,15 @@ GA.prototype.initialize = function () {
   this.load();
 };
 
-
 /**
  * Loaded?
  *
  * @return {Boolean}
  */
 
-GA.prototype.loaded = function () {
+GA.prototype.loaded = function(){
   return !! window.gaplugins;
 };
-
 
 /**
  * Load the Google Analytics library.
@@ -12755,10 +12921,9 @@ GA.prototype.loaded = function () {
  * @param {Function} callback
  */
 
-GA.prototype.load = function (callback) {
+GA.prototype.load = function(callback){
   load('//www.google-analytics.com/analytics.js', callback);
 };
-
 
 /**
  * Page.
@@ -12768,7 +12933,7 @@ GA.prototype.load = function (callback) {
  * @param {Page} page
  */
 
-GA.prototype.page = function (page) {
+GA.prototype.page = function(page){
   var category = page.category();
   var props = page.properties();
   var name = page.fullName();
@@ -12797,7 +12962,6 @@ GA.prototype.page = function (page) {
   }
 };
 
-
 /**
  * Track.
  *
@@ -12807,10 +12971,9 @@ GA.prototype.page = function (page) {
  * @param {Track} event
  */
 
-GA.prototype.track = function (track, options) {
+GA.prototype.track = function(track, options){
   var opts = options || track.options(this.name);
   var props = track.properties();
-
   window.ga('send', 'event', {
     eventAction: track.event(),
     eventCategory: props.category || this._category || 'All',
@@ -12876,7 +13039,7 @@ GA.prototype.completedOrder = function(track){
  * https://developers.google.com/analytics/devguides/collection/gajs/methods/gaJSApiBasicConfiguration
  */
 
-GA.prototype.initializeClassic = function () {
+GA.prototype.initializeClassic = function(){
   var opts = this.options;
   var anonymize = opts.anonymizeIp;
   var db = opts.doubleClick;
@@ -12909,14 +13072,13 @@ GA.prototype.initializeClassic = function () {
   this.load();
 };
 
-
 /**
  * Loaded? (classic)
  *
  * @return {Boolean}
  */
 
-GA.prototype.loadedClassic = function () {
+GA.prototype.loadedClassic = function(){
   return !! (window._gaq && window._gaq.push !== Array.prototype.push);
 };
 
@@ -12927,7 +13089,7 @@ GA.prototype.loadedClassic = function () {
  * @param {Function} callback
  */
 
-GA.prototype.loadClassic = function (callback) {
+GA.prototype.loadClassic = function(callback){
   if (this.options.doubleClick) {
     load('//stats.g.doubleclick.net/dc.js', callback);
   } else {
@@ -12938,7 +13100,6 @@ GA.prototype.loadClassic = function (callback) {
   }
 };
 
-
 /**
  * Page (classic).
  *
@@ -12947,7 +13108,7 @@ GA.prototype.loadClassic = function (callback) {
  * @param {Page} page
  */
 
-GA.prototype.pageClassic = function (page) {
+GA.prototype.pageClassic = function(page){
   var opts = page.options(this.name);
   var category = page.category();
   var props = page.properties();
@@ -12969,7 +13130,6 @@ GA.prototype.pageClassic = function (page) {
   }
 };
 
-
 /**
  * Track (classic).
  *
@@ -12978,7 +13138,7 @@ GA.prototype.pageClassic = function (page) {
  * @param {Track} track
  */
 
-GA.prototype.trackClassic = function (track, options) {
+GA.prototype.trackClassic = function(track, options){
   var opts = options || track.options(this.name);
   var props = track.properties();
   var revenue = track.revenue();
@@ -13042,13 +13202,12 @@ GA.prototype.completedOrderClassic = function(track){
  * @param {Object} options
  */
 
-function path (properties, options) {
+function path(properties, options) {
   if (!properties) return;
   var str = properties.path;
   if (options.includeSearch && properties.search) str += properties.search;
   return str;
 }
-
 
 /**
  * Format the value property to Google's liking.
@@ -13057,7 +13216,7 @@ function path (properties, options) {
  * @return {Number}
  */
 
-function formatValue (value) {
+function formatValue(value) {
   if (!value || value < 0) return 0;
   return Math.round(value);
 }
@@ -13096,15 +13255,19 @@ function metrics(obj, data){
   return ret;
 }
 
-}, {"callback":12,"canonical":13,"each":5,"analytics.js-integration":159,"is":18,"load-script":161,"global-queue":193,"facade":178,"object":25,"obj-case":59,"type":33,"url":26}],
-113: [function(require, module, exports) {
+}, {"analytics.js-integration":160,"global-queue":178,"object":25,"canonical":13,"facade":180,"callback":12,"load-script":162,"obj-case":59,"each":5,"type":33,"url":26,"is":18}],
+114: [function(require, module, exports) {
+
+/**
+ * Module dependencies.
+ */
 
 var push = require('global-queue')('dataLayer', { wrap: false });
 var integration = require('analytics.js-integration');
 var load = require('load-script');
 
 /**
- * Expose plugin
+ * Expose plugin.
  */
 
 module.exports = exports = function(analytics){
@@ -13112,7 +13275,7 @@ module.exports = exports = function(analytics){
 };
 
 /**
- * Expose `GTM`
+ * Expose `GTM`.
  */
 
 var GTM = exports.Integration = integration('Google Tag Manager')
@@ -13125,7 +13288,7 @@ var GTM = exports.Integration = integration('Google Tag Manager')
   .option('trackCategorizedPages', true)
 
 /**
- * Initialize
+ * Initialize.
  *
  * https://developers.google.com/tag-manager
  *
@@ -13137,7 +13300,7 @@ GTM.prototype.initialize = function(){
 };
 
 /**
- * Loaded
+ * Loaded?
  *
  * @return {Boolean}
  */
@@ -13203,13 +13366,17 @@ GTM.prototype.track = function(track){
   push(props);
 };
 
-}, {"global-queue":193,"analytics.js-integration":159,"load-script":161}],
-114: [function(require, module, exports) {
+}, {"global-queue":178,"analytics.js-integration":160,"load-script":162}],
+115: [function(require, module, exports) {
 
+/**
+ * Module dependencies.
+ */
+
+var integration = require('analytics.js-integration');
 var Identify = require('facade').Identify;
 var Track = require('facade').Track;
 var callback = require('callback');
-var integration = require('analytics.js-integration');
 var load = require('load-script');
 var onBody = require('on-body');
 var each = require('each');
@@ -13379,13 +13546,17 @@ function push(){
   _gs.apply(null, arguments);
 }
 
-}, {"facade":178,"callback":12,"analytics.js-integration":159,"load-script":161,"on-body":173,"each":5}],
-115: [function(require, module, exports) {
+}, {"analytics.js-integration":160,"facade":180,"callback":12,"load-script":162,"on-body":174,"each":5}],
+116: [function(require, module, exports) {
 
-var alias = require('alias');
-var callback = require('callback');
+/**
+ * Module dependencies.
+ */
+
 var integration = require('analytics.js-integration');
+var callback = require('callback');
 var load = require('load-script');
+var alias = require('alias');
 
 /**
  * Expose plugin.
@@ -13401,7 +13572,7 @@ module.exports = exports = function(analytics){
 
 var Heap = exports.Integration = integration('Heap')
   .assumesPageview()
-  .readyOnInitialize()
+  .readyOnLoad()
   .global('heap')
   .global('_heapid')
   .option('apiKey', '');
@@ -13470,8 +13641,12 @@ Heap.prototype.track = function(track){
   window.heap.track(track.event(), track.properties());
 };
 
-}, {"alias":199,"callback":12,"analytics.js-integration":159,"load-script":161}],
-116: [function(require, module, exports) {
+}, {"analytics.js-integration":160,"callback":12,"load-script":162,"alias":200}],
+117: [function(require, module, exports) {
+
+/**
+ * Module dependencies.
+ */
 
 var integration = require('analytics.js-integration');
 var load = require('load-script');
@@ -13490,7 +13665,7 @@ module.exports = exports = function(analytics){
 
 var Hellobar = exports.Integration = integration('Hello Bar')
   .assumesPageview()
-  .readyOnInitialize()
+  .readyOnLoad()
   .global('_hbq')
   .option('apiKey', '');
 
@@ -13528,12 +13703,16 @@ Hellobar.prototype.loaded = function(){
   return !! (window._hbq && window._hbq.push !== Array.prototype.push);
 };
 
-}, {"analytics.js-integration":159,"load-script":161}],
-117: [function(require, module, exports) {
+}, {"analytics.js-integration":160,"load-script":162}],
+118: [function(require, module, exports) {
+
+/**
+ * Module dependencies.
+ */
 
 var integration = require('analytics.js-integration');
-var is = require('is');
 var load = require('load-script');
+var is = require('is');
 
 /**
  * Expose plugin.
@@ -13584,14 +13763,18 @@ HitTail.prototype.load = function(callback){
   load('//' + id + '.hittail.com/mlt.js', callback);
 };
 
-}, {"analytics.js-integration":159,"is":18,"load-script":161}],
-118: [function(require, module, exports) {
+}, {"analytics.js-integration":160,"load-script":162,"is":18}],
+119: [function(require, module, exports) {
 
-var callback = require('callback');
-var convert = require('convert-dates');
+/**
+ * Module dependencies.
+ */
+
 var integration = require('analytics.js-integration');
-var load = require('load-script');
 var push = require('global-queue')('_hsq');
+var convert = require('convert-dates');
+var callback = require('callback');
+var load = require('load-script');
 
 /**
  * Expose plugin.
@@ -13607,7 +13790,7 @@ module.exports = exports = function(analytics){
 
 var HubSpot = exports.Integration = integration('HubSpot')
   .assumesPageview()
-  .readyOnInitialize()
+  .readyOnLoad()
   .global('_hsq')
   .option('portalId', null);
 
@@ -13695,13 +13878,17 @@ function convertDates(properties){
   return convert(properties, function(date){ return date.getTime(); });
 }
 
-}, {"callback":12,"convert-dates":200,"analytics.js-integration":159,"load-script":161,"global-queue":193}],
-119: [function(require, module, exports) {
+}, {"analytics.js-integration":160,"global-queue":178,"convert-dates":201,"callback":12,"load-script":162}],
+120: [function(require, module, exports) {
 
-var alias = require('alias');
-var callback = require('callback');
+/**
+ * Module dependencies.
+ */
+
 var integration = require('analytics.js-integration');
+var callback = require('callback');
 var load = require('load-script');
+var alias = require('alias');
 
 /**
  * Expose plugin.
@@ -13717,7 +13904,7 @@ module.exports = exports = function(analytics){
 
 var Improvely = exports.Integration = integration('Improvely')
   .assumesPageview()
-  .readyOnInitialize()
+  .readyOnLoad()
   .global('_improvely')
   .global('improvely')
   .option('domain', '')
@@ -13789,14 +13976,18 @@ Improvely.prototype.track = function(track){
   window.improvely.goal(props);
 };
 
-}, {"alias":199,"callback":12,"analytics.js-integration":159,"load-script":161}],
-120: [function(require, module, exports) {
+}, {"analytics.js-integration":160,"callback":12,"load-script":162,"alias":200}],
+121: [function(require, module, exports) {
+
+/**
+ * Module dependencies.
+ */
 
 var integration = require('analytics.js-integration');
+var push = require('global-queue')('__insp');
+var load = require('load-script');
 var alias = require('alias');
 var clone = require('clone');
-var load = require('load-script');
-var push = require('global-queue')('__insp');
 
 /**
  * Expose plugin.
@@ -13876,34 +14067,38 @@ Inspectlet.prototype.track = function(track){
   push('tagSession', track.event());
 };
 
-}, {"analytics.js-integration":159,"alias":199,"clone":198,"load-script":161,"global-queue":193}],
-121: [function(require, module, exports) {
+}, {"analytics.js-integration":160,"global-queue":178,"load-script":162,"alias":200,"clone":199}],
+122: [function(require, module, exports) {
 
-var alias = require('alias');
-var convertDates = require('convert-dates');
+/**
+ * Module dependencies.
+ */
+
 var integration = require('analytics.js-integration');
-var each = require('each');
-var is = require('is');
+var convertDates = require('convert-dates');
+var defaults = require('defaults');
 var isEmail = require('is-email');
 var load = require('load-script');
-var defaults = require('defaults');
 var empty = require('is-empty');
+var alias = require('alias');
+var each = require('each');
 var when = require('when');
+var is = require('is');
 
+/**
+ * Group reference.
+ */
 
-/* Group reference. */
 var group;
-
 
 /**
  * Expose plugin.
  */
 
-module.exports = exports = function (analytics) {
+module.exports = exports = function(analytics){
   analytics.addIntegration(Intercom);
   group = analytics.group();
 };
-
 
 /**
  * Expose `Intercom` integration.
@@ -13917,7 +14112,6 @@ var Intercom = exports.Integration = integration('Intercom')
   .option('appId', '')
   .option('inbox', false);
 
-
 /**
  * Initialize.
  *
@@ -13927,10 +14121,9 @@ var Intercom = exports.Integration = integration('Intercom')
  * @param {Object} page
  */
 
-Intercom.prototype.initialize = function (page) {
+Intercom.prototype.initialize = function(page){
   this.load();
 };
-
 
 /**
  * Loaded?
@@ -13938,10 +14131,9 @@ Intercom.prototype.initialize = function (page) {
  * @return {Boolean}
  */
 
-Intercom.prototype.loaded = function () {
+Intercom.prototype.loaded = function(){
   return is.fn(window.Intercom);
 };
-
 
 /**
  * Load the Intercom library.
@@ -13952,7 +14144,7 @@ Intercom.prototype.loaded = function () {
  * @param {Function} callback
  */
 
-Intercom.prototype.load = function (callback) {
+Intercom.prototype.load = function(callback){
   var self = this;
   load('https://static.intercomcdn.com/intercom.v1.js', function(err){
     if (err) return callback(err);
@@ -13972,7 +14164,6 @@ Intercom.prototype.page = function(page){
   window.Intercom('update');
 };
 
-
 /**
  * Identify.
  *
@@ -13981,7 +14172,7 @@ Intercom.prototype.page = function(page){
  * @param {Identify} identify
  */
 
-Intercom.prototype.identify = function (identify) {
+Intercom.prototype.identify = function(identify){
   var traits = identify.traits({ userId: 'user_id' });
   var activator = this.options.activator;
   var opts = identify.options(this.name);
@@ -14031,14 +14222,13 @@ Intercom.prototype.identify = function (identify) {
   window.Intercom(method, traits);
 };
 
-
 /**
  * Group.
  *
  * @param {Group} group
  */
 
-Intercom.prototype.group = function (group) {
+Intercom.prototype.group = function(group){
   var props = group.properties();
   var id = group.groupId();
   if (id) props.id = id;
@@ -14062,15 +14252,19 @@ Intercom.prototype.track = function(track){
  * @return {Number}
  */
 
-function formatDate (date) {
+function formatDate(date) {
   return Math.floor(date / 1000);
 }
 
-}, {"alias":199,"convert-dates":200,"analytics.js-integration":159,"each":5,"is":18,"is-email":19,"load-script":161,"defaults":192,"is-empty":42,"when":177}],
-122: [function(require, module, exports) {
+}, {"analytics.js-integration":160,"convert-dates":201,"defaults":194,"is-email":19,"load-script":162,"is-empty":42,"alias":200,"each":5,"when":179,"is":18}],
+123: [function(require, module, exports) {
 
-var callback = require('callback');
+/**
+ * Module dependencies.
+ */
+
 var integration = require('analytics.js-integration');
+var callback = require('callback');
 var load = require('load-script');
 
 /**
@@ -14086,7 +14280,7 @@ module.exports = exports = function(analytics){
  */
 
 var Keen = exports.Integration = integration('Keen IO')
-  .readyOnInitialize()
+  .readyOnLoad()
   .global('Keen')
   .option('projectId', '')
   .option('readKey', '')
@@ -14189,8 +14383,8 @@ Keen.prototype.track = function(track){
   window.Keen.addEvent(track.event(), track.properties());
 };
 
-}, {"callback":12,"analytics.js-integration":159,"load-script":161}],
-123: [function(require, module, exports) {
+}, {"analytics.js-integration":160,"callback":12,"load-script":162}],
+124: [function(require, module, exports) {
 
 /**
  * Module dependencies.
@@ -14288,8 +14482,8 @@ Kenshoo.prototype.track = function(track){
   window.k_trackevent(params, this.options.subdomain);
 };
 
-}, {"analytics.js-integration":159,"load-script":161,"indexof":46,"is":18}],
-124: [function(require, module, exports) {
+}, {"analytics.js-integration":160,"load-script":162,"indexof":46,"is":18}],
+125: [function(require, module, exports) {
 
 /**
  * Module dependencies.
@@ -14503,8 +14697,8 @@ function prefix(event, properties){
   return prefixed;
 }
 
-}, {"analytics.js-integration":159,"global-queue":193,"facade":178,"callback":12,"load-script":161,"alias":199,"batch":201,"each":5,"is":18}],
-201: [function(require, module, exports) {
+}, {"analytics.js-integration":160,"global-queue":178,"facade":180,"callback":12,"load-script":162,"alias":200,"batch":202,"each":5,"is":18}],
+202: [function(require, module, exports) {
 /**
  * Module dependencies.
  */
@@ -14664,8 +14858,8 @@ Batch.prototype.end = function(cb){
   return this;
 };
 
-}, {"emitter":202}],
-202: [function(require, module, exports) {
+}, {"emitter":203}],
+203: [function(require, module, exports) {
 
 /**
  * Expose `Emitter`.
@@ -14832,13 +15026,18 @@ Emitter.prototype.hasListeners = function(event){
 };
 
 }, {}],
-125: [function(require, module, exports) {
+126: [function(require, module, exports) {
 
-var alias = require('alias');
-var callback = require('callback');
+/**
+ * Module dependencies.
+ */
+
 var integration = require('analytics.js-integration');
-var load = require('load-script');
 var push = require('global-queue')('_learnq');
+var callback = require('callback');
+var load = require('load-script');
+var tick = require('next-tick');
+var alias = require('alias');
 
 /**
  * Expose plugin.
@@ -14849,12 +15048,25 @@ module.exports = exports = function(analytics){
 };
 
 /**
+ * Trait aliases.
+ */
+
+var aliases = {
+  id: '$id',
+  email: '$email',
+  firstName: '$first_name',
+  lastName: '$last_name',
+  phone: '$phone_number',
+  title: '$title'
+};
+
+/**
  * Expose `Klaviyo` integration.
  */
 
 var Klaviyo = exports.Integration = integration('Klaviyo')
   .assumesPageview()
-  .readyOnInitialize()
+  .readyOnLoad()
   .global('_learnq')
   .option('apiKey', '');
 
@@ -14884,24 +15096,13 @@ Klaviyo.prototype.loaded = function(){
 /**
  * Load.
  *
- * @param {Function} callback
+ * @param {Function} fn
  */
 
-Klaviyo.prototype.load = function(callback){
-  load('//a.klaviyo.com/media/js/learnmarklet.js', callback);
-};
-
-/**
- * Trait aliases.
- */
-
-var aliases = {
-  id: '$id',
-  email: '$email',
-  firstName: '$first_name',
-  lastName: '$last_name',
-  phone: '$phone_number',
-  title: '$title'
+Klaviyo.prototype.load = function(fn){
+  load('//a.klaviyo.com/media/js/learnmarklet.js', function(){
+    tick(fn);
+  });
 };
 
 /**
@@ -14940,8 +15141,12 @@ Klaviyo.prototype.track = function(track){
   }));
 };
 
-}, {"alias":199,"callback":12,"analytics.js-integration":159,"load-script":161,"global-queue":193}],
-126: [function(require, module, exports) {
+}, {"analytics.js-integration":160,"global-queue":178,"callback":12,"load-script":162,"next-tick":45,"alias":200}],
+127: [function(require, module, exports) {
+
+/**
+ * Module dependencies.
+ */
 
 var integration = require('analytics.js-integration');
 var load = require('load-script');
@@ -14996,13 +15201,17 @@ LeadLander.prototype.load = function(callback){
   load('http://t6.trackalyzer.com/trackalyze-nodoc.js', callback);
 };
 
-}, {"analytics.js-integration":159,"load-script":161}],
-127: [function(require, module, exports) {
+}, {"analytics.js-integration":160,"load-script":162}],
+128: [function(require, module, exports) {
 
-var each = require('each');
+/**
+ * Module dependencies.
+ */
+
 var integration = require('analytics.js-integration');
 var load = require('load-script');
 var clone = require('clone');
+var each = require('each');
 var when = require('when');
 
 /**
@@ -15092,15 +15301,19 @@ function convert(traits){
   return arr;
 }
 
-}, {"each":5,"analytics.js-integration":159,"load-script":161,"clone":198,"when":177}],
-128: [function(require, module, exports) {
+}, {"analytics.js-integration":160,"load-script":162,"clone":199,"each":5,"when":179}],
+129: [function(require, module, exports) {
 
-var Identify = require('facade').Identify;
+/**
+ * Module dependencies.
+ */
+
 var integration = require('analytics.js-integration');
+var Identify = require('facade').Identify;
 var load = require('load-script');
 
 /**
- * User ref
+ * User reference.
  */
 
 var user;
@@ -15175,20 +15388,25 @@ LuckyOrange.prototype.load = function(callback){
  */
 
 LuckyOrange.prototype.identify = function(identify){
-  var traits = window.__wtw_custom_user_data = identify.traits();
+  var traits = identify.traits();
   var email = identify.email();
   var name = identify.name();
   if (name) traits.name = name;
   if (email) traits.email = email;
+  window.__wtw_custom_user_data = traits;
 };
 
-}, {"facade":178,"analytics.js-integration":159,"load-script":161}],
-129: [function(require, module, exports) {
+}, {"analytics.js-integration":160,"facade":180,"load-script":162}],
+130: [function(require, module, exports) {
 
-var alias = require('alias');
-var callback = require('callback');
+/**
+ * Module dependencies.
+ */
+
 var integration = require('analytics.js-integration');
+var callback = require('callback');
 var load = require('load-script');
+var alias = require('alias');
 
 /**
  * Expose plugin.
@@ -15203,7 +15421,7 @@ module.exports = exports = function(analytics){
  */
 
 var Lytics = exports.Integration = integration('Lytics')
-  .readyOnInitialize()
+  .readyOnLoad()
   .global('jstag')
   .option('cid', '')
   .option('cookie', 'seerid')
@@ -15288,8 +15506,12 @@ Lytics.prototype.track = function(track){
   window.jstag.send(props);
 };
 
-}, {"alias":199,"callback":12,"analytics.js-integration":159,"load-script":161}],
-130: [function(require, module, exports) {
+}, {"analytics.js-integration":160,"callback":12,"load-script":162,"alias":200}],
+131: [function(require, module, exports) {
+
+/**
+ * Module dependencies.
+ */
 
 var alias = require('alias');
 var clone = require('clone');
@@ -15520,8 +15742,8 @@ function lowercase(arr){
   return ret;
 }
 
-}, {"alias":199,"clone":198,"convert-dates":200,"analytics.js-integration":159,"to-iso-string":197,"load-script":161,"indexof":46,"obj-case":59}],
-131: [function(require, module, exports) {
+}, {"alias":200,"clone":199,"convert-dates":201,"analytics.js-integration":160,"to-iso-string":198,"load-script":162,"indexof":46,"obj-case":59}],
+132: [function(require, module, exports) {
 
 /**
  * Module dependencies.
@@ -15529,6 +15751,8 @@ function lowercase(arr){
 
 var integration = require('analytics.js-integration');
 var load = require('load-script');
+var bind = require('bind');
+var when = require('when');
 var is = require('is');
 
 /**
@@ -15544,9 +15768,9 @@ module.exports = exports = function(analytics){
  */
 
 var Mojn = exports.Integration = integration('Mojn')
+  .readyOnLoad()
   .option('customerCode', '')
-  .global('_mojnTrack')
-  .readyOnInitialize();
+  .global('_mojnTrack');
 
 /**
  * Initialize.
@@ -15567,7 +15791,10 @@ Mojn.prototype.initialize = function(){
  */
 
 Mojn.prototype.load = function(fn){
-  load('https://track.idtargeting.com/' + this.options.customerCode + '/track.js', fn);
+  var loaded = bind(this, this.loaded);
+  load('https://track.idtargeting.com/' + this.options.customerCode + '/track.js', function(){
+    when(loaded, fn);
+  });
 };
 
 /**
@@ -15612,8 +15839,12 @@ Mojn.prototype.track = function(track){
   return conv;
 };
 
-}, {"analytics.js-integration":159,"load-script":161,"is":18}],
-132: [function(require, module, exports) {
+}, {"analytics.js-integration":160,"load-script":162,"bind":31,"when":179,"is":18}],
+133: [function(require, module, exports) {
+
+/**
+ * Module dependencies.
+ */
 
 var push = require('global-queue')('_mfq');
 var integration = require('analytics.js-integration');
@@ -15621,7 +15852,7 @@ var load = require('load-script');
 var each = require('each');
 
 /**
- * Expose plugin
+ * Expose plugin.
  */
 
 module.exports = exports = function(analytics){
@@ -15629,7 +15860,7 @@ module.exports = exports = function(analytics){
 };
 
 /**
- * Expose `Mouseflow`
+ * Expose `Mouseflow`.
  */
 
 var Mouseflow = exports.Integration = integration('Mouseflow')
@@ -15641,7 +15872,7 @@ var Mouseflow = exports.Integration = integration('Mouseflow')
   .option('mouseflowHtmlDelay', 0);
 
 /**
- * Iniitalize
+ * Initalize.
  *
  * @param {Object} page
  */
@@ -15657,7 +15888,7 @@ Mouseflow.prototype.initialize = function(page){
  */
 
 Mouseflow.prototype.loaded = function(){
-  return !! (window._mfq && [].push != window._mfq.push);
+  return !! window.mouseflow;
 };
 
 /**
@@ -15668,6 +15899,7 @@ Mouseflow.prototype.loaded = function(){
 
 Mouseflow.prototype.load = function(fn){
   var apiKey = this.options.apiKey;
+  var self = this;
   window.mouseflowHtmlDelay = this.options.mouseflowHtmlDelay;
   load('//cdn.mouseflow.com/projects/' + apiKey + '.js', fn);
 };
@@ -15675,7 +15907,7 @@ Mouseflow.prototype.load = function(fn){
 /**
  * Page.
  *
- * //mouseflow.zendesk.com/entries/22528817-Single-page-websites
+ * http://mouseflow.zendesk.com/entries/22528817-Single-page-websites
  *
  * @param {Page} page
  */
@@ -15689,7 +15921,7 @@ Mouseflow.prototype.page = function(page){
 /**
  * Identify.
  *
- * //mouseflow.zendesk.com/entries/24643603-Custom-Variables-Tagging
+ * http://mouseflow.zendesk.com/entries/24643603-Custom-Variables-Tagging
  *
  * @param {Identify} identify
  */
@@ -15701,7 +15933,7 @@ Mouseflow.prototype.identify = function(identify){
 /**
  * Track.
  *
- * //mouseflow.zendesk.com/entries/24643603-Custom-Variables-Tagging
+ * http://mouseflow.zendesk.com/entries/24643603-Custom-Variables-Tagging
  *
  * @param {Track} track
  */
@@ -15713,34 +15945,36 @@ Mouseflow.prototype.track = function(track){
 };
 
 /**
- * Push the given `hash`.
+ * Push each key and value in the given `obj` onto the queue.
  *
- * @param {Object} hash
+ * @param {Object} obj
  */
 
-function set(hash){
-  each(hash, function(k, v){
-    push('setVariable', k, v);
+function set(obj){
+  each(obj, function(key, value){
+    push('setVariable', key, value);
   });
 }
 
-}, {"global-queue":193,"analytics.js-integration":159,"load-script":161,"each":5}],
-133: [function(require, module, exports) {
+}, {"global-queue":178,"analytics.js-integration":160,"load-script":162,"each":5}],
+134: [function(require, module, exports) {
 
-var each = require('each');
+/**
+ * Module dependencies.
+ */
+
 var integration = require('analytics.js-integration');
-var is = require('is');
 var load = require('load-script');
-
+var each = require('each');
+var is = require('is');
 
 /**
  * Expose plugin.
  */
 
-module.exports = exports = function (analytics) {
+module.exports = exports = function(analytics){
   analytics.addIntegration(MouseStats);
 };
-
 
 /**
  * Expose `MouseStats` integration.
@@ -15753,7 +15987,6 @@ var MouseStats = exports.Integration = integration('MouseStats')
   .global('MouseStatsVisitorPlaybacks')
   .option('accountNumber', '');
 
-
 /**
  * Initialize.
  *
@@ -15762,10 +15995,9 @@ var MouseStats = exports.Integration = integration('MouseStats')
  * @param {Object} page
  */
 
-MouseStats.prototype.initialize = function (page) {
+MouseStats.prototype.initialize = function(page){
   this.load();
 };
-
 
 /**
  * Loaded?
@@ -15773,10 +16005,9 @@ MouseStats.prototype.initialize = function (page) {
  * @return {Boolean}
  */
 
-MouseStats.prototype.loaded = function () {
+MouseStats.prototype.loaded = function(){
   return is.array(window.MouseStatsVisitorPlaybacks);
 };
-
 
 /**
  * Load.
@@ -15784,7 +16015,7 @@ MouseStats.prototype.loaded = function () {
  * @param {Function} callback
  */
 
-MouseStats.prototype.load = function (callback) {
+MouseStats.prototype.load = function(callback){
   var number = this.options.accountNumber;
   var path = number.slice(0,1) + '/' + number.slice(1,2) + '/' + number;
   var cache = Math.floor(new Date().getTime() / 60000);
@@ -15794,7 +16025,6 @@ MouseStats.prototype.load = function (callback) {
   load({ http: http, https: https }, callback);
 };
 
-
 /**
  * Identify.
  *
@@ -15803,14 +16033,14 @@ MouseStats.prototype.load = function (callback) {
  * @param {Identify} identify
  */
 
-MouseStats.prototype.identify = function (identify) {
+MouseStats.prototype.identify = function(identify){
   each(identify.traits(), function (key, value) {
     window.MouseStatsVisitorPlaybacks.customVariable(key, value);
   });
 };
 
-}, {"each":5,"analytics.js-integration":159,"is":18,"load-script":161}],
-134: [function(require, module, exports) {
+}, {"analytics.js-integration":160,"load-script":162,"each":5,"is":18}],
+135: [function(require, module, exports) {
 
 /**
  * Module dependencies.
@@ -15887,11 +16117,15 @@ Navilytics.prototype.track = function(track){
   push('tagRecording', track.event());
 };
 
-}, {"analytics.js-integration":159,"load-script":161,"global-queue":193}],
-135: [function(require, module, exports) {
+}, {"analytics.js-integration":160,"load-script":162,"global-queue":178}],
+136: [function(require, module, exports) {
 
-var callback = require('callback');
+/**
+ * Module dependencies.
+ */
+
 var integration = require('analytics.js-integration');
+var callback = require('callback');
 var https = require('use-https');
 
 /**
@@ -15908,29 +16142,58 @@ module.exports = exports = function(analytics){
 
 var Olark = exports.Integration = integration('Olark')
   .assumesPageview()
-  .readyOnInitialize()
+  .readyOnLoad()
   .global('olark')
   .option('identify', true)
   .option('page', true)
   .option('siteId', '')
+  .option('groupId', '')
   .option('track', false);
 
 /**
  * Initialize.
  *
  * http://www.olark.com/documentation
+ * https://www.olark.com/documentation/javascript/api.chat.setOperatorGroup
  *
  * @param {Object} page
  */
 
 Olark.prototype.initialize = function(page){
-  window.olark||(function(c){var f=window,d=document,l=https()?"https:":"http:",z=c.name,r="load";var nt=function(){f[z]=function(){(a.s=a.s||[]).push(arguments)};var a=f[z]._={},q=c.methods.length;while (q--) {(function(n){f[z][n]=function(){f[z]("call",n,arguments)}})(c.methods[q])}a.l=c.loader;a.i=nt;a.p={ 0:+new Date() };a.P=function(u){a.p[u]=new Date()-a.p[0]};function s(){a.P(r);f[z](r)}f.addEventListener?f.addEventListener(r,s,false):f.attachEvent("on"+r,s);var ld=function(){function p(hd){hd="head";return ["<",hd,"></",hd,"><",i,' onl' + 'oad="var d=',g,";d.getElementsByTagName('head')[0].",j,"(d.",h,"('script')).",k,"='",l,"//",a.l,"'",'"',"></",i,">"].join("")}var i="body",m=d[i];if (!m) {return setTimeout(ld,100)}a.P(1);var j="appendChild",h="createElement",k="src",n=d[h]("div"),v=n[j](d[h](z)),b=d[h]("iframe"),g="document",e="domain",o;n.style.display="none";m.insertBefore(n,m.firstChild).id=z;b.frameBorder="0";b.id=z+"-loader";if (/MSIE[ ]+6/.test(navigator.userAgent)) {b.src="javascript:false"}b.allowTransparency="true";v[j](b);try {b.contentWindow[g].open()}catch (w) {c[e]=d[e];o="javascript:var d="+g+".open();d.domain='"+d.domain+"';";b[k]=o+"void(0);"}try {var t=b.contentWindow[g];t.write(p());t.close()}catch (x) {b[k]=o+'d.write("'+p().replace(/"/g,String.fromCharCode(92)+'"')+'");d.close();'}a.P(2)};ld()};nt()})({ loader: "static.olark.com/jsclient/loader0.js", name:"olark", methods:["configure","extend","declare","identify"] });
-  window.olark.identify(this.options.siteId);
+  this.load();
+
+  // assign chat to a specific site
+  var groupId = this.options.groupId;
+  if (groupId) {
+    chat('setOperatorGroup', { group: groupId });
+  }
 
   // keep track of the widget's open state
   var self = this;
   box('onExpand', function(){ self._open = true; });
   box('onShrink', function(){ self._open = false; });
+};
+
+/**
+ * Loaded?
+ *
+ * @return {Boolean}
+ */
+
+Olark.prototype.loaded = function(){
+  return !! window.olark;
+};
+
+/**
+ * Load.
+ *
+ * @param {Function} callback
+ */
+
+Olark.prototype.load = function(callback){
+  window.olark||(function(c){var f=window,d=document,l=https()?"https:":"http:",z=c.name,r="load";var nt=function(){f[z]=function(){(a.s=a.s||[]).push(arguments)};var a=f[z]._={},q=c.methods.length;while (q--) {(function(n){f[z][n]=function(){f[z]("call",n,arguments)}})(c.methods[q])}a.l=c.loader;a.i=nt;a.p={ 0:+new Date() };a.P=function(u){a.p[u]=new Date()-a.p[0]};function s(){a.P(r);f[z](r)}f.addEventListener?f.addEventListener(r,s,false):f.attachEvent("on"+r,s);var ld=function(){function p(hd){hd="head";return ["<",hd,"></",hd,"><",i,' onl' + 'oad="var d=',g,";d.getElementsByTagName('head')[0].",j,"(d.",h,"('script')).",k,"='",l,"//",a.l,"'",'"',"></",i,">"].join("")}var i="body",m=d[i];if (!m) {return setTimeout(ld,100)}a.P(1);var j="appendChild",h="createElement",k="src",n=d[h]("div"),v=n[j](d[h](z)),b=d[h]("iframe"),g="document",e="domain",o;n.style.display="none";m.insertBefore(n,m.firstChild).id=z;b.frameBorder="0";b.id=z+"-loader";if (/MSIE[ ]+6/.test(navigator.userAgent)) {b.src="javascript:false"}b.allowTransparency="true";v[j](b);try {b.contentWindow[g].open()}catch (w) {c[e]=d[e];o="javascript:var d="+g+".open();d.domain='"+d.domain+"';";b[k]=o+"void(0);"}try {var t=b.contentWindow[g];t.write(p());t.close()}catch (x) {b[k]=o+'d.write("'+p().replace(/"/g,String.fromCharCode(92)+'"')+'");d.close();'}a.P(2)};ld()};nt()})({ loader: "static.olark.com/jsclient/loader0.js", name:"olark", methods:["configure","extend","declare","identify"] });
+  window.olark.identify(this.options.siteId);
+  callback();
 };
 
 /**
@@ -16033,15 +16296,19 @@ function chat(action, value){
   window.olark('api.chat.' + action, value);
 }
 
-}, {"callback":12,"analytics.js-integration":159,"use-https":195}],
-136: [function(require, module, exports) {
+}, {"analytics.js-integration":160,"callback":12,"use-https":196}],
+137: [function(require, module, exports) {
 
-var bind = require('bind');
-var callback = require('callback');
-var each = require('each');
+/**
+ * Module dependencies.
+ */
+
 var integration = require('analytics.js-integration');
 var push = require('global-queue')('optimizely');
+var callback = require('callback');
 var tick = require('next-tick');
+var bind = require('bind');
+var each = require('each');
 
 /**
  * Analytics reference.
@@ -16139,9 +16406,12 @@ Optimizely.prototype.replay = function(){
 
   analytics.identify(traits);
 };
+}, {"analytics.js-integration":160,"global-queue":178,"callback":12,"next-tick":45,"bind":31,"each":5}],
+138: [function(require, module, exports) {
 
-}, {"bind":31,"callback":12,"each":5,"analytics.js-integration":159,"global-queue":193,"next-tick":45}],
-137: [function(require, module, exports) {
+/**
+ * Module dependencies.
+ */
 
 var integration = require('analytics.js-integration');
 var load = require('load-script');
@@ -16208,13 +16478,17 @@ PerfectAudience.prototype.track = function(track){
   window._pa.track(track.event(), track.properties());
 };
 
-}, {"analytics.js-integration":159,"load-script":161}],
-138: [function(require, module, exports) {
+}, {"analytics.js-integration":160,"load-script":162}],
+139: [function(require, module, exports) {
 
-var date = require('load-date');
+/**
+ * Module dependencies.
+ */
+
 var integration = require('analytics.js-integration');
-var load = require('load-script');
 var push = require('global-queue')('_prum');
+var load = require('load-script');
+var date = require('load-date');
 
 /**
  * Expose plugin.
@@ -16267,21 +16541,22 @@ Pingdom.prototype.load = function(callback){
   load('//rum-static.pingdom.net/prum.min.js', callback);
 };
 
-}, {"load-date":194,"analytics.js-integration":159,"load-script":161,"global-queue":193}],
-139: [function(require, module, exports) {
+}, {"analytics.js-integration":160,"global-queue":178,"load-script":162,"load-date":195}],
+140: [function(require, module, exports) {
 
 /**
  * Module dependencies.
  */
 
 var integration = require('analytics.js-integration');
-var load = require('load-script');
 var push = require('global-queue')('_paq');
+var load = require('load-script');
 var each = require('each');
 
 /**
- * Expose plugin
+ * Expose plugin.
  */
+
 module.exports = exports = function(analytics){
   analytics.addIntegration(Piwik);
 };
@@ -16294,7 +16569,7 @@ var Piwik = exports.Integration = integration('Piwik')
   .global('_paq')
   .option('url', null)
   .option('siteId', '')
-  .readyOnInitialize()
+  .readyOnLoad()
   .mapping('goals');
 
 /**
@@ -16351,15 +16626,19 @@ Piwik.prototype.track = function(track){
   });
 };
 
-}, {"analytics.js-integration":159,"load-script":161,"global-queue":193,"each":5}],
-140: [function(require, module, exports) {
+}, {"analytics.js-integration":160,"global-queue":178,"load-script":162,"each":5}],
+141: [function(require, module, exports) {
 
-var alias = require('alias');
-var callback = require('callback');
-var convertDates = require('convert-dates');
+/**
+ * Module dependencies.
+ */
+
 var integration = require('analytics.js-integration');
-var load = require('load-script');
+var convertDates = require('convert-dates');
 var push = require('global-queue')('_lnq');
+var callback = require('callback');
+var load = require('load-script');
+var alias = require('alias');
 
 /**
  * Expose plugin.
@@ -16375,7 +16654,7 @@ module.exports = exports = function(analytics){
 
 var Preact = exports.Integration = integration('Preact')
   .assumesPageview()
-  .readyOnInitialize()
+  .readyOnLoad()
   .global('_lnq')
   .option('projectCode', '');
 
@@ -16480,15 +16759,21 @@ function convertDate(date){
   return Math.floor(date / 1000);
 }
 
-}, {"alias":199,"callback":12,"convert-dates":200,"analytics.js-integration":159,"load-script":161,"global-queue":193}],
-141: [function(require, module, exports) {
+}, {"analytics.js-integration":160,"convert-dates":201,"global-queue":178,"callback":12,"load-script":162,"alias":200}],
+142: [function(require, module, exports) {
 
-var callback = require('callback');
+/**
+ * Module dependencies.
+ */
+
 var integration = require('analytics.js-integration');
-var load = require('load-script');
 var push = require('global-queue')('_kiq');
+var callback = require('callback');
+var load = require('load-script');
 var Facade = require('facade');
 var Identify = Facade.Identify;
+var bind = require('bind');
+var when = require('when');
 
 /**
  * Expose plugin.
@@ -16504,7 +16789,7 @@ module.exports = exports = function(analytics){
 
 var Qualaroo = exports.Integration = integration('Qualaroo')
   .assumesPageview()
-  .readyOnInitialize()
+  .readyOnLoad()
   .global('_kiq')
   .option('customerId', '')
   .option('siteToken', '')
@@ -16534,13 +16819,16 @@ Qualaroo.prototype.loaded = function(){
 /**
  * Load.
  *
- * @param {Function} callback
+ * @param {Function} fn
  */
 
-Qualaroo.prototype.load = function(callback){
+Qualaroo.prototype.load = function(fn){
   var token = this.options.siteToken;
   var id = this.options.customerId;
-  load('//s3.amazonaws.com/ki.js/' + id + '/' + token + '.js', callback);
+  var loaded = bind(this, this.loaded);
+  load('//s3.amazonaws.com/ki.js/' + id + '/' + token + '.js', function(){
+    when(loaded, fn);
+  });
 };
 
 /**
@@ -16577,8 +16865,8 @@ Qualaroo.prototype.track = function(track){
   this.identify(new Identify({ traits: traits }));
 };
 
-}, {"callback":12,"analytics.js-integration":159,"load-script":161,"global-queue":193,"facade":178}],
-142: [function(require, module, exports) {
+}, {"analytics.js-integration":160,"global-queue":178,"callback":12,"load-script":162,"facade":180,"bind":31,"when":179}],
+143: [function(require, module, exports) {
 
 /**
  * Module dependencies.
@@ -16609,12 +16897,11 @@ module.exports = exports = function(analytics){
 
 var Quantcast = exports.Integration = integration('Quantcast')
   .assumesPageview()
-  .readyOnInitialize()
+  .readyOnLoad()
   .global('_qevents')
   .global('__qc')
   .option('pCode', null)
   .option('advertise', false);
-
 
 /**
  * Initialize.
@@ -16782,12 +17069,16 @@ Quantcast.prototype.labels = function(type){
   return [type, ret].join('.');
 };
 
-}, {"global-queue":193,"analytics.js-integration":159,"load-script":161}],
-143: [function(require, module, exports) {
+}, {"global-queue":178,"analytics.js-integration":160,"load-script":162}],
+144: [function(require, module, exports) {
+
+/**
+ * Module dependencies.
+ */
 
 var integration = require('analytics.js-integration');
-var is = require('is');
 var extend = require('extend');
+var is = require('is');
 
 /**
  * Expose plugin.
@@ -16802,7 +17093,7 @@ module.exports = exports = function(analytics){
  */
 
 var RollbarIntegration = exports.Integration = integration('Rollbar')
-  .readyOnInitialize()
+  .readyOnLoad()
   .global('Rollbar')
   .option('identify', true)
   .option('accessToken', '')
@@ -16866,8 +17157,8 @@ RollbarIntegration.prototype.identify = function(identify){
   rollbar.configure({ payload: { person: person }});
 };
 
-}, {"analytics.js-integration":159,"is":18,"extend":38}],
-144: [function(require, module, exports) {
+}, {"analytics.js-integration":160,"extend":38,"is":18}],
+145: [function(require, module, exports) {
 
 /**
  * Module dependencies.
@@ -16894,7 +17185,7 @@ var SaaSquatch = exports.Integration = integration('SaaSquatch')
   .global('_sqh');
 
 /**
- * Initialize
+ * Initialize.
  *
  * @param {Page} page
  */
@@ -16955,12 +17246,16 @@ SaaSquatch.prototype.identify = function(identify){
   this.called = true;
   this.load();
 };
+}, {"analytics.js-integration":160,"load-script":162}],
+146: [function(require, module, exports) {
 
-}, {"analytics.js-integration":159,"load-script":161}],
-145: [function(require, module, exports) {
+/**
+ * Module dependencies.
+ */
+
 var integration = require('analytics.js-integration');
-var is = require('is');
 var load = require('load-script');
+var is = require('is');
 
 /**
  * Expose plugin.
@@ -17024,12 +17319,16 @@ Sentry.prototype.identify = function(identify){
   window.Raven.setUser(identify.traits());
 };
 
-}, {"analytics.js-integration":159,"is":18,"load-script":161}],
-146: [function(require, module, exports) {
+}, {"analytics.js-integration":160,"load-script":162,"is":18}],
+147: [function(require, module, exports) {
+
+/**
+ * Module dependencies.
+ */
 
 var integration = require('analytics.js-integration');
-var is = require('is');
 var load = require('load-script');
+var is = require('is');
 
 /**
  * Expose plugin.
@@ -17095,11 +17394,17 @@ SnapEngage.prototype.identify = function(identify){
   window.SnapABug.setUserEmail(email);
 };
 
-}, {"analytics.js-integration":159,"is":18,"load-script":161}],
-147: [function(require, module, exports) {
+}, {"analytics.js-integration":160,"load-script":162,"is":18}],
+148: [function(require, module, exports) {
+
+/**
+ * Module dependencies.
+ */
 
 var integration = require('analytics.js-integration');
 var load = require('load-script');
+var bind = require('bind');
+var when = require('when');
 
 /**
  * Expose plugin.
@@ -17144,15 +17449,21 @@ Spinnakr.prototype.loaded = function(){
 /**
  * Load.
  *
- * @param {Function} callback
+ * @param {Function} fn
  */
 
-Spinnakr.prototype.load = function(callback){
-  load('//d3ojzyhbolvoi5.cloudfront.net/js/so.js', callback);
+Spinnakr.prototype.load = function(fn){
+  var loaded = bind(this, this.loaded);
+  load('//d3ojzyhbolvoi5.cloudfront.net/js/so.js', function(){
+    when(loaded, fn);
+  });
 };
+}, {"analytics.js-integration":160,"load-script":162,"bind":31,"when":179}],
+149: [function(require, module, exports) {
 
-}, {"analytics.js-integration":159,"load-script":161}],
-148: [function(require, module, exports) {
+/**
+ * Module dependencies.
+ */
 
 var callback = require('callback');
 var integration = require('analytics.js-integration');
@@ -17174,7 +17485,7 @@ module.exports = exports = function(analytics){
 
 var Tapstream = exports.Integration = integration('Tapstream')
   .assumesPageview()
-  .readyOnInitialize()
+  .readyOnLoad()
   .global('_tsq')
   .option('accountName', '')
   .option('trackAllPages', true)
@@ -17251,14 +17562,18 @@ Tapstream.prototype.track = function(track){
   push('fireHit', slug(track.event()), [props.url]); // needs events as slugs
 };
 
-}, {"callback":12,"analytics.js-integration":159,"load-script":161,"slug":166,"global-queue":193}],
-149: [function(require, module, exports) {
+}, {"callback":12,"analytics.js-integration":160,"load-script":162,"slug":167,"global-queue":178}],
+150: [function(require, module, exports) {
 
-var alias = require('alias');
-var callback = require('callback');
-var clone = require('clone');
+/**
+ * Module dependencies.
+ */
+
 var integration = require('analytics.js-integration');
+var callback = require('callback');
 var load = require('load-script');
+var alias = require('alias');
+var clone = require('clone');
 
 /**
  * Expose plugin.
@@ -17274,7 +17589,7 @@ module.exports = exports = function(analytics){
 
 var Trakio = exports.Integration = integration('trak.io')
   .assumesPageview()
-  .readyOnInitialize()
+  .readyOnLoad()
   .global('trak')
   .option('token', '')
   .option('trackNamedPages', true)
@@ -17297,11 +17612,11 @@ var optionsAliases = {
  */
 
 Trakio.prototype.initialize = function(page){
-  var self = this;
   var options = this.options;
   window.trak = window.trak || [];
   window.trak.io = window.trak.io || {};
-  window.trak.io.load = function(e){self.load(); var r = function(e){return function(){window.trak.push([e].concat(Array.prototype.slice.call(arguments,0))); }; } ,i=["initialize","identify","track","alias","channel","source","host","protocol","page_view"]; for (var s=0;s<i.length;s++) window.trak.io[i[s]]=r(i[s]); window.trak.io.initialize.apply(window.trak.io,arguments); };
+  window.trak.push = window.trak.push || function(){};
+  window.trak.io.load = window.trak.io.load || function(e){var r = function(e){return function(){window.trak.push([e].concat(Array.prototype.slice.call(arguments,0))); }; } ,i=["initialize","identify","track","alias","channel","source","host","protocol","page_view"]; for (var s=0;s<i.length;s++) window.trak.io[i[s]]=r(i[s]); window.trak.io.initialize.apply(window.trak.io,arguments); };
   window.trak.io.load(options.token, alias(options, optionsAliases));
   this.load();
 };
@@ -17319,11 +17634,11 @@ Trakio.prototype.loaded = function(){
 /**
  * Load the trak.io library.
  *
- * @param {Function} callback
+ * @param {Function} fn
  */
 
-Trakio.prototype.load = function(callback){
-  load('//d29p64779x43zo.cloudfront.net/v1/trak.io.min.js', callback);
+Trakio.prototype.load = function(fn){
+  load('//d29p64779x43zo.cloudfront.net/v1/trak.io.min.js', fn);
 };
 
 /**
@@ -17420,14 +17735,18 @@ Trakio.prototype.alias = function(alias){
   }
 };
 
-}, {"alias":199,"callback":12,"clone":198,"analytics.js-integration":159,"load-script":161}],
-150: [function(require, module, exports) {
+}, {"analytics.js-integration":160,"callback":12,"load-script":162,"alias":200,"clone":199}],
+151: [function(require, module, exports) {
+
+/**
+ * Module dependencies.
+ */
 
 var pixel = require('load-pixel')('//analytics.twitter.com/i/adsct');
 var integration = require('analytics.js-integration');
 
 /**
- * Expose plugin
+ * Expose plugin.
  */
 
 module.exports = exports = function(analytics){
@@ -17435,23 +17754,17 @@ module.exports = exports = function(analytics){
 };
 
 /**
- * Expose `load`
- */
-
-exports.load = pixel;
-
-/**
- * HOP
+ * HOP.
  */
 
 var has = Object.prototype.hasOwnProperty;
 
 /**
- * Expose `TwitterAds`
+ * Expose `TwitterAds`.
  */
 
 var TwitterAds = exports.Integration = integration('Twitter Ads')
-  .readyOnInitialize()
+  .readyOnLoad()
   .option('events', {});
 
 /**
@@ -17464,19 +17777,26 @@ TwitterAds.prototype.track = function(track){
   var events = this.options.events;
   var event = track.event();
   if (!has.call(events, event)) return;
-  return exports.load({
-    txn_id: events[event],
-    p_id: 'Twitter'
-  });
+  var img = new Image();
+  img.src = '//analytics.twitter.com/i/adsct'
+    + '?txn_id=' + events[event]
+    + '&p_id=Twitter';
+  img.width = 1;
+  img.height = 1;
+  return img;
 };
 
-}, {"load-pixel":179,"analytics.js-integration":159}],
-151: [function(require, module, exports) {
+}, {"load-pixel":181,"analytics.js-integration":160}],
+152: [function(require, module, exports) {
 
-var callback = require('callback');
+/**
+ * Module dependencies.
+ */
+
 var integration = require('analytics.js-integration');
-var load = require('load-script');
 var push = require('global-queue')('_uc');
+var callback = require('callback');
+var load = require('load-script');
 
 /**
  * Expose plugin.
@@ -17492,7 +17812,7 @@ module.exports = exports = function(analytics){
 
 var Usercycle = exports.Integration = integration('USERcycle')
   .assumesPageview()
-  .readyOnInitialize()
+  .readyOnLoad()
   .global('_uc')
   .option('key', '');
 
@@ -17555,8 +17875,12 @@ Usercycle.prototype.track = function(track){
   }));
 };
 
-}, {"callback":12,"analytics.js-integration":159,"load-script":161,"global-queue":193}],
-152: [function(require, module, exports) {
+}, {"analytics.js-integration":160,"global-queue":178,"callback":12,"load-script":162}],
+153: [function(require, module, exports) {
+
+/**
+ * Module dependencies.
+ */
 
 var alias = require('alias');
 var callback = require('callback');
@@ -17579,7 +17903,7 @@ module.exports = exports = function(analytics){
 
 var Userfox = exports.Integration = integration('userfox')
   .assumesPageview()
-  .readyOnInitialize()
+  .readyOnLoad()
   .global('_ufq')
   .option('clientId', '');
 
@@ -17651,17 +17975,21 @@ function formatDate(date){
   return Math.round(date.getTime() / 1000).toString();
 }
 
-}, {"alias":199,"callback":12,"convert-dates":200,"analytics.js-integration":159,"load-script":161,"global-queue":193}],
-153: [function(require, module, exports) {
+}, {"alias":200,"callback":12,"convert-dates":201,"analytics.js-integration":160,"load-script":162,"global-queue":178}],
+154: [function(require, module, exports) {
 
-var alias = require('alias');
-var callback = require('callback');
-var clone = require('clone');
-var convertDates = require('convert-dates');
+/**
+ * Module dependencies.
+ */
+
 var integration = require('analytics.js-integration');
-var load = require('load-script');
 var push = require('global-queue')('UserVoice');
+var convertDates = require('convert-dates');
 var unix = require('to-unix-timestamp');
+var callback = require('callback');
+var load = require('load-script');
+var alias = require('alias');
+var clone = require('clone');
 
 /**
  * Expose plugin.
@@ -17677,7 +18005,7 @@ module.exports = exports = function(analytics){
 
 var UserVoice = exports.Integration = integration('UserVoice')
   .assumesPageview()
-  .readyOnInitialize()
+  .readyOnLoad()
   .global('UserVoice')
   .global('showClassicWidget')
   .option('apiKey', '')
@@ -17721,7 +18049,6 @@ UserVoice.on('construct', function(integration){
 
 UserVoice.prototype.initialize = function(page){
   var options = this.options;
-
   var opts = formatOptions(options);
   push('set', opts);
   push('autoprompt', {});
@@ -17855,8 +18182,8 @@ function showClassicWidget(type, options){
   push(type, 'classic_widget', options);
 }
 
-}, {"alias":199,"callback":12,"clone":198,"convert-dates":200,"analytics.js-integration":159,"load-script":161,"global-queue":193,"to-unix-timestamp":203}],
-203: [function(require, module, exports) {
+}, {"analytics.js-integration":160,"global-queue":178,"convert-dates":201,"to-unix-timestamp":204,"callback":12,"load-script":162,"alias":200,"clone":199}],
+204: [function(require, module, exports) {
 
 /**
  * Expose `toUnixTimestamp`.
@@ -17876,7 +18203,11 @@ function toUnixTimestamp (date) {
   return Math.floor(date.getTime() / 1000);
 }
 }, {}],
-154: [function(require, module, exports) {
+155: [function(require, module, exports) {
+
+/**
+ * Module dependencies.
+ */
 
 var callback = require('callback');
 var integration = require('analytics.js-integration');
@@ -17896,7 +18227,7 @@ module.exports = exports = function(analytics){
  */
 
 var Vero = exports.Integration = integration('Vero')
-  .readyOnInitialize()
+  .readyOnLoad()
   .global('_veroq')
   .option('apiKey', '');
 
@@ -17973,13 +18304,17 @@ Vero.prototype.track = function(track){
   push('track', track.event(), track.properties());
 };
 
-}, {"callback":12,"analytics.js-integration":159,"load-script":161,"global-queue":193}],
-155: [function(require, module, exports) {
+}, {"callback":12,"analytics.js-integration":160,"load-script":162,"global-queue":178}],
+156: [function(require, module, exports) {
 
-var callback = require('callback');
-var each = require('each');
+/**
+ * Module dependencies.
+ */
+
 var integration = require('analytics.js-integration');
+var callback = require('callback');
 var tick = require('next-tick');
+var each = require('each');
 
 /**
  * Analytics reference.
@@ -18078,8 +18413,12 @@ function variation(id){
   return variationId ? experiment.comb_n[variationId] : null;
 }
 
-}, {"callback":12,"each":5,"analytics.js-integration":159,"next-tick":45}],
-156: [function(require, module, exports) {
+}, {"analytics.js-integration":160,"callback":12,"next-tick":45,"each":5}],
+157: [function(require, module, exports) {
+
+/**
+ * Module dependencies.
+ */
 
 var integration = require('analytics.js-integration');
 var load = require('load-script');
@@ -18141,8 +18480,8 @@ WebEngage.prototype.load = function(fn){
   }, fn);
 };
 
-}, {"analytics.js-integration":159,"load-script":161}],
-157: [function(require, module, exports) {
+}, {"analytics.js-integration":160,"load-script":162}],
+158: [function(require, module, exports) {
 
 /**
  * Module dependencies.
@@ -18268,12 +18607,18 @@ Woopra.prototype.track = function (track) {
   window.woopra.track(track.event(), track.properties());
 };
 
-}, {"analytics.js-integration":159,"to-snake-case":160,"load-script":161,"is-email":19,"extend":38,"each":5,"type":33}],
-158: [function(require, module, exports) {
+}, {"analytics.js-integration":160,"to-snake-case":161,"load-script":162,"is-email":19,"extend":38,"each":5,"type":33}],
+159: [function(require, module, exports) {
 
-var callback = require('callback');
+/**
+ * Module dependencies.
+ */
+
 var integration = require('analytics.js-integration');
 var load = require('load-script');
+var tick = require('next-tick');
+var bind = require('bind');
+var when = require('when');
 
 /**
  * Expose plugin.
@@ -18289,7 +18634,7 @@ module.exports = exports = function(analytics){
 
 var Yandex = exports.Integration = integration('Yandex Metrica')
   .assumesPageview()
-  .readyOnInitialize()
+  .readyOnLoad()
   .global('yandex_metrika_callbacks')
   .global('Ya')
   .option('counterId', null);
@@ -18326,11 +18671,14 @@ Yandex.prototype.loaded = function(){
 /**
  * Load.
  *
- * @param {Function} callback
+ * @param {Function} fn
  */
 
-Yandex.prototype.load = function(callback){
-  load('//mc.yandex.ru/metrika/watch.js', callback);
+Yandex.prototype.load = function(fn){
+  var loaded = bind(this, this.loaded);
+  load('//mc.yandex.ru/metrika/watch.js', function(){
+    when(loaded, fn);
+  });
 };
 
 /**
@@ -18344,4 +18692,4 @@ function push(callback){
   window.yandex_metrika_callbacks.push(callback);
 }
 
-}, {"callback":12,"analytics.js-integration":159,"load-script":161}]}, {}, {"1":"analytics"})
+}, {"analytics.js-integration":160,"load-script":162,"next-tick":45,"bind":31,"when":179}]}, {}, {"1":"analytics"})
